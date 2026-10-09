@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abstract Arithmetic & Vintage Pixels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: #12100e;
+            color: #d4c5b9;
+            overflow-x: hidden;
+        }
+        .font-pixel {
+            font-family: 'Press Start 2P', monospace;
+        }
+        .font-serif-vintage {
+            font-family: 'Courier Prime', monospace;
+        }
+        
+        /* CRT Scanline Effect */
+        .crt::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 14, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 999;
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Vintage sepia vignette */
+        .vignette {
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Custom Pixel Canvas Styling */
+        .pixel-grid {
+            display: grid;
+            grid-template-columns: repeat(16, minmax(0, 1fr));
+            gap: 2px;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1714;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a3b32;
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7a5c4d;
+        }
+    </style>
+</head>
+<body class="crt vignette min-h-screen relative selection:bg-[#d97706] selection:text-[#12100e]">
+
+    <header class="border-b border-[#3d332a] bg-[#1a1714]/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-[#d97706] flex items-center justify-center font-pixel text-xs text-[#12100e] shadow-[2px_2px_0px_0px_#78350f]">
+                    ∑
+                </div>
+                <div>
+                    <span class="font-pixel text-xs sm:text-sm tracking-wider text-[#e7e5e4]">CALCULUS.LOG</span>
+                    <span class="block text-[10px] text-[#a89f91] font-serif-vintage tracking-widest">EST. 1984 // SECTOR IV</span>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-xs font-serif-vintage tracking-wider">
+                <a href="#matrix" class="hover:text-[#d97706] transition-colors">01. MATRIX</a>
+                <a href="#generator" class="hover:text-[#d97706] transition-colors">02. SYNTHESIS</a>
+                <a href="#archive" class="hover:text-[#d97706] transition-colors">03. ARCHIVE</a>
+                <a href="#terminal" class="hover:text-[#d97706] transition-colors">04. CONSOLE</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-[10px] font-pixel text-emerald-500/90">SYS.ONLINE</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative pt-16 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-[#26211d] border border-[#4a3f35] rounded text-xs font-serif-vintage text-[#d97706]">
+                    <span>[THEORETICAL ARITHMETIC & PIXELATION]</span>
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-bold font-serif-vintage tracking-tight leading-tight text-[#f5f5f4]">
+                    Where Abstract Math <br/>Meets <span class="text-[#d97706] underline decoration-wavy decoration-[#78350f]">Pixelated Memory</span>
+                </h1>
+                <p class="text-sm sm:text-base text-[#a89f91] font-serif-vintage leading-relaxed max-w-2xl">
+                    Dive into a vintage-futuristic nexus where infinite mathematical sequences dissolve into discrete geometric bit-maps. Explore abstract numeric matrices, interactive procedural pixel art generators, and timeless retro aesthetics.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="#generator" class="px-6 py-3 bg-[#d97706] hover:bg-[#b45309] text-[#12100e] font-pixel text-xs rounded transition-all shadow-[4px_4px_0px_0px_#451a03] active:translate-x-1 active:translate-y-1 active:shadow-none">
+                        LAUNCH SYNTHESIS
+                    </a>
+                    <a href="#matrix" class="px-6 py-3 bg-[#26211d] hover:bg-[#383029] text-[#d4c5b9] border border-[#57483e] font-pixel text-xs rounded transition-all shadow-[4px_4px_0px_0px_#1a1714]">
+                        EXPLORE FORMULAS
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Hero Interactive Preview Widget -->
+            <div class="lg:col-span-5">
+                <div class="bg-[#1a1714] border-2 border-[#4a3f35] p-4 rounded shadow-[8px_8px_0px_0px_#0a0908] relative group">
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#332b24]">
+                        <div class="flex space-x-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-900 inline-block"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-900 inline-block"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-900 inline-block"></span>
+                        </div>
+                        <span class="text-[10px] font-pixel text-[#8c8275]">FIG. 01 // BIT_MATRIX</span>
+                    </div>
+                    <!-- Abstract Pixel Art / Math Canvas Preview -->
+                    <div id="heroPixelCanvas" class="aspect-square bg-[#12100e] border border-[#332b24] p-3 grid grid-cols-8 gap-1.5 relative overflow-hidden">
+                        <!-- Dynamically populated via JS -->
+                    </div>
+                    <div class="mt-3 flex items-center justify-between text-xs font-serif-vintage text-[#8c8275]">
+                        <span id="canvasStateInfo">STATE: HARMONIC_PRIME</span>
+                        <button onclick="regenerateHeroMatrix()" class="text-[#d97706] hover:underline">[SHUFFLE MATRIX]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="matrix" class="py-16 border-t border-[#2d251f] bg-[#161311]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-xs font-pixel text-[#d97706]">[SECTION 01]</span>
+                <h2 class="text-2xl sm:text-3xl font-serif-vintage font-bold text-[#f5f5f4]">Abstract Arithmetic Modules</h2>
+                <p class="text-sm text-[#a89f91] font-serif-vintage">
+                    Complex mathematical constructs translated into pixelated visual art pieces. Each card represents a fundamental numeric paradox.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Module 1 -->
+                <div class="bg-[#1a1714] border border-[#3d332a] rounded p-6 flex flex-col justify-between hover:border-[#d97706] transition-colors group">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-pixel text-[10px] text-[#d97706] bg-[#26211d] px-2 py-1 rounded">MOD-01</span>
+                            <span class="text-xs font-serif-vintage text-[#8c8275]">φ = 1.618...</span>
+                        </div>
+                        <h3 class="font-serif-vintage font-bold text-lg text-[#f5f5f4] mb-2 group-hover:text-[#d97706] transition-colors">The Golden Ratio Lattice</h3>
+                        <p class="text-xs font-serif-vintage text-[#a89f91] leading-relaxed mb-6">
+                            Recursive arithmetic sequences mapped onto a discrete pixel grid, creating organic patterns from rigid numerical laws.
+                        </p>
+                    </div>
+                    <div class="bg-[#12100e] border border-[#2d251f] p-4 rounded h-36 flex items-center justify-center relative overflow-hidden">
+                        <div class="grid grid-cols-6 gap-1 w-full h-full max-w-[140px] max-h-[140px]" id="moduleGrid1">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="bg-[#1a1714] border border-[#3d332a] rounded p-6 flex flex-col justify-between hover:border-[#d97706] transition-colors group">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-pixel text-[10px] text-[#d97706] bg-[#26211d] px-2 py-1 rounded">MOD-02</span>
+                            <span class="text-xs font-serif-vintage text-[#8c8275]">π = 3.1415...</span>
+                        </div>
+                        <h3 class="font-serif-vintage font-bold text-lg text-[#f5f5f4] mb-2 group-hover:text-[#d97706] transition-colors">Infinite Decimal Bitstream</h3>
+                        <p class="text-xs font-serif-vintage text-[#a89f91] leading-relaxed mb-6">
+                            Irrational numbers converted into chromatic color tones across an abstract pixel canvas, simulating timeless digital entropy.
+                        </p>
+                    </div>
+                    <div class="bg-[#12100e] border border-[#2d251f] p-4 rounded h-36 flex items-center justify-center relative overflow-hidden">
+                        <div class="grid grid-cols-6 gap-1 w-full h-full max-w-[140px] max-h-[140px]" id="moduleGrid2">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="bg-[#1a1714] border border-[#3d332a] rounded p-6 flex flex-col justify-between hover:border-[#d97706] transition-colors group">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-pixel text-[10px] text-[#d97706] bg-[#26211d] px-2 py-1 rounded">MOD-03</span>
+                            <span class="text-xs font-serif-vintage text-[#8c8275]">e = 2.7182...</span>
+                        </div>
+                        <h3 class="font-serif-vintage font-bold text-lg text-[#f5f5f4] mb-2 group-hover:text-[#d97706] transition-colors">Exponential Decay Shading</h3>
+                        <p class="text-xs font-serif-vintage text-[#a89f91] leading-relaxed mb-6">
+                            Natural logarithms driving pixel density gradients. A vintage exploration of growth curves and decay thresholds.
+                        </p>
+                    </div>
+                    <div class="bg-[#12100e] border border-[#2d251f] p-4 rounded h-36 flex items-center justify-center relative overflow-hidden">
+                        <div class="grid grid-cols-6 gap-1 w-full h-full max-w-[140px] max-h-[140px]" id="moduleGrid3">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="generator" class="py-16 border-t border-[#2d251f] bg-[#12100e]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-xs font-pixel text-[#d97706]">[SECTION 02]</span>
+                <h2 class="text-2xl sm:text-3xl font-serif-vintage font-bold text-[#f5f5f4]">Arithmetic Pixel Synthesizer</h2>
+                <p class="text-sm text-[#a89f91] font-serif-vintage">
+                    Adjust the mathematical coefficients below to procedurally generate custom vintage abstract pixel compositions in real-time.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start bg-[#1a1714] border border-[#3d332a] p-6 sm:p-8 rounded shadow-xl">
+                <!-- Controls -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="space-y-2">
+                        <label class="text-xs font-pixel text-[#d4c5b9] flex justify-between">
+                            <span>MODULUS FREQUENCY</span>
+                            <span id="valFreq" class="text-[#d97706]">4</span>
+                        </label>
+                        <input type="range" id="inputFreq" min="1" max="16" value="4" class="w-full accent-[#d97706] cursor-pointer" oninput="updateSynthesizer()">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-pixel text-[#d4c5b9] flex justify-between">
+                            <span>PRIME SEED</span>
+                            <span id="valSeed" class="text-[#d97706]">37</span>
+                        </label>
+                        <input type="range" id="inputSeed" min="1" max="100" value="37" class="w-full accent-[#d97706] cursor-pointer" oninput="updateSynthesizer()">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-pixel text-[#d4c5b9] flex justify-between">
+                            <span>COLOR PALETTE</span>
+                        </label>
+                        <select id="selectPalette" class="w-full bg-[#12100e] border border-[#3d332a] text-[#d4c5b9] text-xs font-serif-vintage p-3 rounded focus:outline-none focus:border-[#d97706]" onchange="updateSynthesizer()">
+                            <option value="sepia">01. Vintage Sepia & Amber</option>
+                            <option value="terminal">02. Monochrome CRT Green</option>
+                            <option value="cyber">03. Dusk Cobalt & Rust</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-4 flex gap-4">
+                        <button onclick="randomizeSynthesizer()" class="flex-1 py-3 bg-[#26211d] hover:bg-[#383029] text-[#d4c5b9] border border-[#57483e] font-pixel text-xs rounded transition-all">
+                            RANDOMIZE
+                        </button>
+                        <button onclick="exportSynthesizer()" class="flex-1 py-3 bg-[#d97706] hover:bg-[#b45309] text-[#12100e] font-pixel text-xs rounded transition-all shadow-[2px_2px_0px_0px_#451a03]">
+                            EXPORT MATRIX
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Canvas Display -->
+                <div class="lg:col-span-7 flex flex-col items-center justify-center bg-[#12100e] border border-[#332b24] p-6 rounded min-h-[360px] relative">
+                    <div id="synthCanvas" class="grid grid-cols-12 gap-1.5 w-full max-w-[320px] aspect-square">
+                        <!-- Dynamic synth pixels -->
+                    </div>
+                    <div id="exportStatus" class="mt-4 text-[10px] font-pixel text-[#8c8275] h-4"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="archive" class="py-16 border-t border-[#2d251f] bg-[#161311]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-xs font-pixel text-[#d97706]">[SECTION 03]</span>
+                <h2 class="text-2xl sm:text-3xl font-serif-vintage font-bold text-[#f5f5f4]">Mathematical Artefacts</h2>
+                <p class="text-sm text-[#a89f91] font-serif-vintage">
+                    Curated specimens combining ancient arithmetic notations with high-contrast low-res pixel matrices.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Artefact 1 -->
+                <div class="bg-[#1a1714] border border-[#3d332a] rounded overflow-hidden group hover:border-[#d97706] transition-colors">
+                    <div class="bg-[#12100e] p-6 aspect-video flex items-center justify-center relative overflow-hidden border-b border-[#3d332a]">
+                        <div class="font-pixel text-[10px] text-[#d97706] tracking-widest">[ ∑ = 142.85 ]</div>
+                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:8px_8px]"></div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <span class="text-[10px] font-pixel text-[#8c8275]">SPECIMEN #084</span>
+                        <h4 class="font-serif-vintage font-bold text-sm text-[#f5f5f4]">Fibonacci Spiral Bit</h4>
+                        <p class="text-xs text-[#a89f91] font-serif-vintage">Recurrence relation transformed into discrete luminance blocks.</p>
+                    </div>
+                </div>
+
+                <!-- Artefact 2 -->
+                <div class="bg-[#1a1714] border border-[#3d332a] rounded overflow-hidden group hover:border-[#d97706] transition-colors">
+                    <div class="bg-[#12100e] p-6 aspect-video flex items-center justify-center relative overflow-hidden border-b border-[#3d332a]">
+                        <div class="font-pixel text-[10px] text-[#b45309] tracking-widest">[ ∫ dx dy = ∞ ]</div>
+                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:8px_8px]"></div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <span class="text-[10px] font-pixel text-[#8c8275]">SPECIMEN #089</span>
+                        <h4 class="font-serif-vintage font-bold text-sm text-[#f5f5f4]">Riemann Zeta Matrix</h4>
+                        <p class="text-xs text-[#a89f91] font-serif-vintage">Critical strip distribution visualized through pixelated grids.</p>
+                    </div>
+                </div>
+
+                <!-- Artefact 3 -->
+                <div class="bg-[#1a1714] border border-[#3d332a] rounded overflow-hidden group hover:border-[#d97706] transition-colors">
+                    <div class="bg-[#12100e] p-6 aspect-video flex items-center justify-center relative overflow-hidden border-b border-[#3d332a]">
+                        <div class="font-pixel text-[10px] text-[#d97706] tracking-widest">[ ∰ A·dl = 0 ]</div>
+                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:8px_8px]"></div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <span class="text-[10px] font-pixel text-[#8c8275]">SPECIMEN #092</span>
+                        <h4 class="font-serif-vintage font-bold text-sm text-[#f5f5f4]">Prime Number Scatter</h4>
+                        <p class="text-xs text-[#a89f91] font-serif-vintage">Modular arithmetic spacing creating abstract vintage patterns.</p>
+                    </div>
+                </div>
+
+                <!-- Artefact 4 -->
+                <div class="bg-[#1a1714] border border-[#3d332a] rounded overflow-hidden group hover:border-[#d97706] transition-colors">
+                    <div class="bg-[#12100e] p-6 aspect-video flex items-center justify-center relative overflow-hidden border-b border-[#3d332a]">
+                        <div class="font-pixel text-[10px] text-[#b45309] tracking-widest">[ ∇ × B = J ]</div>
+                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:8px_8px]"></div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <span class="text-[10px] font-pixel text-[#8c8275]">SPECIMEN #104</span>
+                        <h4 class="font-serif-vintage font-bold text-sm text-[#f5f5f4]">Maxwell Bit Tensor</h4>
+                        <p class="text-xs text-[#a89f91] font-serif-vintage">Electromagnetic field equations rendered in 8-bit aesthetic.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="terminal" class="py-16 border-t border-[#2d251f] bg-[#12100e]">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-[#1a1714] border border-[#3d332a] rounded-lg shadow-2xl overflow-hidden">
+                <div class="bg-[#26211d] px-4 py-3 border-b border-[#3d332a] flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-red-900"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-900"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-900"></span>
+                        <span class="text-xs font-pixel text-[#a89f91] ml-2">TERMINAL // ARITHMETIC_CORE</span>
+                    </div>
+                    <span class="text-[10px] font-pixel text-[#d97706]">READY</span>
+                </div>
+                <div id="terminalBody" class="p-6 font-serif-vintage text-xs text-[#d4c5b9] space-y-3 min-h-[200px] max-h-[300px] overflow-y-auto bg-[#12100e]">
+                    <p class="text-[#8c8275]">&gt; INITIALIZING VINTAGE ARITHMETIC KERNEL v1.04...</p>
+                    <p class="text-[#8c8275]">&gt; LOADING ABSTRACT PIXEL MATRICES INTO MEMORY BUFFER...</p>
+                    <p class="text-[#d97706]">&gt; SYSTEM READY. TYPE OR SELECT A COMMAND BELOW.</p>
+                </div>
+                <div class="p-4 bg-[#1a1714] border-t border-[#3d332a] flex gap-3">
+                    <input type="text" id="terminalInput" placeholder="Enter command (e.g., 'calc', 'matrix', 'clear')..." class="flex-1 bg-[#12100e] border border-[#3d332a] px-4 py-2 text-xs font-serif-vintage text-[#d4c5b9] rounded focus:outline-none focus:border-[#d97706]" onkeydown="handleTerminalInput(event)">
+                    <button onclick="executeCommand()" class="px-5 py-2 bg-[#d97706] hover:bg-[#b45309] text-[#12100e] font-pixel text-xs rounded transition-all">EXEC</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-[#2d251f] bg-[#0e0c0b] py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-6 h-6 bg-[#d97706] flex items-center justify-center font-pixel text-[10px] text-[#12100e]">∑</div>
+                <span class="font-pixel text-xs text-[#a89f91]">ABSTRACT ARITHMETIC & VINTAGE PIXELS</span>
+            </div>
+            <p class="text-xs font-serif-vintage text-[#8c8275]">
+                &copy; 1984-2026 ARCHIVE-IV. ALL RIGHTS RESERVED.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Palette configurations
+        const palettes = {
+            sepia: ['#12100e', '#26211d', '#4a3f35', '#78350f', '#d97706', '#fef3c7'],
+            terminal: ['#0f1712', '#14231b', '#1b3b2b', '#2d6a4f', '#52b788', '#d8f3dc'],
+            cyber: ['#0f1016', '#1a1d2e', '#2d3356', '#594d7b', '#b56576', '#e56b6f']
+        };
+
+        // Initialize Hero Pixel Canvas
+        function initHeroMatrix() {
+            const container = document.getElementById('heroPixelCanvas');
+            container.innerHTML = '';
+            for (let i = 0; i < 64; i++) {
+                const cell = document.createElement('div');
+                const isLit = (i * 7 + 3) % 5 === 0 || (i % 3 === 0 && i % 2 === 0);
+                const color = isLit ? (i % 2 === 0 ? '#d97706' : '#b45309') : '#1a1714';
+                cell.className = 'w-full h-full rounded-[1px] transition-colors duration-500';
+                cell.style.backgroundColor = color;
+                container.appendChild(cell);
+            }
+        }
+
+        function regenerateHeroMatrix() {
+            const container = document.getElementById('heroPixelCanvas');
+            const cells = container.children;
+            const randomSeed = Math.floor(Math.random() * 50);
+            for (let i = 0; i < cells.length; i++) {
+                const isLit = (i * randomSeed + 7) % 4 === 0;
+                cells[i].style.backgroundColor = isLit ? (Math.random() > 0.5 ? '#d97706' : '#78350f') : '#1a1714';
+            }
+            document.getElementById('canvasStateInfo').innerText = 'STATE: SEED_' + randomSeed;
+        }
+
+        // Initialize Static Showcase Modules
+        function initShowcaseModules() {
+            const grids = ['moduleGrid1', 'moduleGrid2', 'moduleGrid3'];
+            grids.forEach((gridId, index) => {
+                const container = document.getElementById(gridId);
+                container.innerHTML = '';
+                for (let i = 0; i < 36; i++) {
+                    const cell = document.createElement('div');
+                    const val = Math.sin(i * (index + 1) * 0.5) * Math.cos(i * 0.2);
+                    const colorIndex = Math.floor(Math.abs(val) * palettes.sepia.length);
+                    cell.className = 'w-full h-full rounded-[1px]';
+                    cell.style.backgroundColor = palettes.sepia[Math.min(colorIndex, palettes.sepia.length - 1)];
+                    container.appendChild(cell);
+                }
+            });
+        }
+
+        // Synthesizer logic
+        function updateSynthesizer() {
+            const freq = parseInt(document.getElementById('inputFreq').value);
+            const seed = parseInt(document.getElementById('inputSeed').value);
+            const paletteKey = document.getElementById('selectPalette').value;
+            const palette = palettes[paletteKey];
+
+            document.getElementById('valFreq').innerText = freq;
+            document.getElementById('valSeed').innerText = seed;
+
+            const container = document.getElementById('synthCanvas');
+            container.innerHTML = '';
+
+            for (let r = 0; r < 12; r++) {
+                for (let c = 0; c < 12; c++) {
+                    const cell = document.createElement('div');
+                    // Abstract arithmetic formula combining sine, modulo, and prime seed
+                    const mathVal = Math.abs(Math.sin((r * freq + c) / (seed % 10 + 1)) * Math.cos((c * freq - r) / 3)) * palette.length;
+                    const colorIdx = Math.min(Math.floor(mathVal), palette.length - 1);
+                    
+                    cell.className = 'w-full aspect-square rounded-[2px] transition-all duration-300';
+                    cell.style.backgroundColor = palette[colorIdx];
+                    container.appendChild(cell);
+                }
+            }
+        }
+
+        function randomizeSynthesizer() {
+            document.getElementById('inputFreq').value = Math.floor(Math.random() * 15) + 1;
+            document.getElementById('inputSeed').value = Math.floor(Math.random() * 99) + 1;
+            updateSynthesizer();
+        }
+
+        function exportSynthesizer() {
+            const status = document.getElementById('exportStatus');
+            const freq = document.getElementById('inputFreq').value;
+            const seed = document.getElementById('inputSeed').value;
+            const paletteKey = document.getElementById('selectPalette').value;
+            const palette = palettes[paletteKey];
+
+            // Create an off-screen canvas to render high-res image of the matrix
+            const canvas = document.createElement('canvas');
+            const size = 600; // High resolution export size
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Draw background
+            ctx.fillStyle = palette[0];
+            ctx.fillRect(0, 0, size, size);
+
+            const cols = 12;
+            const cellSize = size / cols;
+
+            for (let r = 0; r < cols; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const mathVal = Math.abs(Math.sin((r * freq + c) / (seed % 10 + 1)) * Math.cos((c * freq - r) / 3)) * palette.length;
+                    const colorIdx = Math.min(Math.floor(mathVal), palette.length - 1);
+                    
+                    ctx.fillStyle = palette[colorIdx];
+                    // Add slight padding between grid cells for vintage pixel separation
+                    ctx.fillRect(c * cellSize + 2, r * cellSize + 2, cellSize - 4, cellSize - 4);
+                }
+            }
+
+            // Trigger download
+            const link = document.createElement('a');
+            link.download = `arithmetic-matrix-f${freq}-s${seed}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+
+            status.innerText = 'STATUS: MATRIX DOWNLOADED SUCCESSFULLY [OK]';
+            setTimeout(() => {
+                status.innerText = '';
+            }, 3500);
+        }
+
+        // Terminal logic
+        function handleTerminalInput(e) {
+            if (e.key === 'Enter') {
+                executeCommand();
+            }
+        }
+
+        function executeCommand() {
+            const input = document.getElementById('terminalInput');
+            const body = document.getElementById('terminalBody');
+            const cmd = input.value.trim().toLowerCase();
+            if (!cmd) return;
+
+            const pUser = document.createElement('p');
+            pUser.className = 'text-[#d4c5b9]';
+            pUser.innerText = '> ' + input.value;
+            body.appendChild(pUser);
+
+            const pRes = document.createElement('p');
+            pRes.className = 'text-[#d97706]';
+
+            if (cmd === 'help') {
+                pRes.innerText = 'AVAILABLE COMMANDS: calc, matrix, clear, status, about';
+            } else if (cmd === 'calc') {
+                pRes.innerText = 'CALCULATION RESULT: φ(168) = 48.0 [HARMONIC EQUILIBRIUM]';
+            } else if (cmd === 'matrix') {
+                pRes.innerText = 'MATRIX DENSITY: 144 NODES ACTIVE // BITSTREAM STABLE';
+            } else if (cmd === 'status') {
+                pRes.innerText = 'SYSTEM STATUS: ALL ARITHMETIC CORES OPERATIONAL. NO ANOMALIES.';
+            } else if (cmd === 'clear') {
+                body.innerHTML = '<p class="text-[#8c8275]">&gt; TERMINAL BUFFER CLEARED.</p>';
+                input.value = '';
+                return;
+            } else if (cmd === 'about') {
+                pRes.innerText = 'ABSTRACT ARITHMETIC & VINTAGE PIXELS v1.04 - COMBINING MATH AND PIXEL ART.';
+            } else {
+                pRes.innerText = 'ERROR: UNKNOWN COMMAND \'' + cmd + '\'. TYPE \'help\' FOR LIST.';
+                pRes.className = 'text-red-400';
+            }
+
+            body.appendChild(pRes);
+            input.value = '';
+            body.scrollTop = body.scrollHeight;
+        }
+
+        // Run initializations on load
+        window.onload = function() {
+            initHeroMatrix();
+            initShowcaseModules();
+            updateSynthesizer();
+        };
+    </script>
+</body>
+</html>
